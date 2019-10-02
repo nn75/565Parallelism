@@ -86,7 +86,6 @@ int main(int argc, char *argv[]) {
       }
     }
     clock_gettime(CLOCK_MONOTONIC, &end_time);
-    printf("summary array_c[1023][1023]:%f\n",array_c[1023][1023]);
   } else if (!strcmp(loop_type, "jki")) {
     clock_gettime(CLOCK_MONOTONIC, &start_time);
     for (int j = 0 ; j < N ; j++) {
@@ -125,7 +124,6 @@ int main(int argc, char *argv[]) {
       }
     }
     clock_gettime(CLOCK_MONOTONIC, &end_time);
-    printf("summary array_c[1023][1023]:%f\n",array_c[1023][1023]);
   }
 
   double elapsed_ns = calc_time(start_time, end_time);

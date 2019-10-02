@@ -105,8 +105,8 @@ int main(int argc, char *argv[]) {
   double elapsed_ns = calc_time(start_time, end_time);
   double byte_num = array_size * num_traversal * sizeof(uint64_t);
 
-  printf("Time=%f\n", elapsed_ns);
-  printf("Data size = %f\n", byte_num);
+  printf("Time=%f\n", elapsed_ns/1000000000);
+  //printf("Data size = %f\n", byte_num);
   printf("Bandwidth=%f\n", 1000000000 * (byte_num/elapsed_ns) / (1024 * 1024 * 1024));
   
 }
