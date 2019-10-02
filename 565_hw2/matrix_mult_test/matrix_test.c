@@ -6,7 +6,7 @@
 #include <math.h>
 
 const int N = 1024;
-const int block_size = 210;
+const int block_size = 16;
 
 double **array_a;
 double **array_b;
@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
 
   double sum;
   double tmp;
-  if (!strcmp(loop_type, "ijk")) {                //same as jik
+  if (!strcmp(loop_type, "ijk")) {
     clock_gettime(CLOCK_MONOTONIC, &start_time);
     for (int i = 0 ; i < N ; i++) {
       for (int j = 0 ; j < N ; j++) {
@@ -85,8 +85,8 @@ int main(int argc, char *argv[]) {
       }
     }
     clock_gettime(CLOCK_MONOTONIC, &end_time);
-    // printf("summary array_c[1023][1023]:%f\n",array_c[1023][1023]);
-  } else if (!strcmp(loop_type, "jki")) {        //same as 
+    printf("summary array_c[1023][1023]:%f\n",array_c[1023][1023]);
+  } else if (!strcmp(loop_type, "jki")) {
     clock_gettime(CLOCK_MONOTONIC, &start_time);
     for (int j = 0 ; j < N ; j++) {
       for (int k = 0 ; k < N ; k++) {
@@ -97,7 +97,7 @@ int main(int argc, char *argv[]) {
       }
     }
     clock_gettime(CLOCK_MONOTONIC, &end_time);
-  } else if (!strcmp(loop_type, "ikj")) {         //same as kij
+  } else if (!strcmp(loop_type, "ikj")) {
     clock_gettime(CLOCK_MONOTONIC, &start_time);
     for (int k = 0 ; k < N ; k++) {
       for (int i = 0 ; i < N ; i++) {
@@ -112,13 +112,13 @@ int main(int argc, char *argv[]) {
     clock_gettime(CLOCK_MONOTONIC, &start_time);
     for (int ii = 0 ; ii < N ; ii += block_size) {
       for (int jj = 0 ; jj < N ; jj += block_size) {
-        for (int i = ii ; i < min(N, ii + block_size) ; i++){
-          for (int j = jj ; j < min(N, jj + block_size) ; j++){
-            sum = 0;
-            for (int k = 0 ; k < N ; k++) {
-              sum += array_a[i][k] * array_b[k][j];
+        for (int kk = 0 ; kk < N ; kk += block_size) {
+          for (int i = ii ; i < min(N, ii + block_size) ; i++){
+            for (int j = jj ; j < min(N, jj + block_size) ; j++){
+              for (int k = kk ; k < min(N, kk + block_size) ; k++) {
+                array_c[i][j] += array_a[i][k] * array_b[k][j];
+              }
             }
-            array_c[i][j] = sum;
           }
         }
       }
@@ -127,7 +127,7 @@ int main(int argc, char *argv[]) {
   }
 
   double elapsed_ns = calc_time(start_time, end_time);
-  printf("Time=%f\n", elapsed_ns);
+  printf("Time=%f\n", elapsed_ns/1000000000);
 
   for(int i = 0; i < N; i++) {
     free(array_a[i]);

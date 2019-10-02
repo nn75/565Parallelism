@@ -63,13 +63,13 @@ int main(int argc, char *argv[]) {
 
   struct timespec start_time, end_time;
 
-  //uint64_t element = 1;
+  uint64_t element = 1;
   if (pattern_type == 1) {
     init_array_a(array_size);
     clock_gettime(CLOCK_MONOTONIC, &start_time);
     for (int j = 0; j < num_traversal ; j++) {
       for (int i=0; i < array_size ; i++) {
-        array_a[i] = 1;
+        array_a[i] = element;
       }
     }
     clock_gettime(CLOCK_MONOTONIC, &end_time);
