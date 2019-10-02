@@ -33,11 +33,12 @@ double calc_time(struct timespec start, struct timespec end) {
 
 void init_array(){
   double init_num = 1.0;
+  double init_num_zero = 0.0;
   for(int i = 0; i < N; i++){
     for(int j = 0; j < N; j++){
       array_a[i][j] = init_num;
       array_b[i][j] = init_num;
-      array_c[i][j] = init_num;
+      array_c[i][j] = init_num_zero;
     }
   }
 }
@@ -124,6 +125,7 @@ int main(int argc, char *argv[]) {
       }
     }
     clock_gettime(CLOCK_MONOTONIC, &end_time);
+    printf("summary array_c[1023][1023]:%f\n",array_c[1023][1023]);
   }
 
   double elapsed_ns = calc_time(start_time, end_time);
